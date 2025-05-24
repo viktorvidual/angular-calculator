@@ -1,0 +1,27 @@
+button {
+  border: none;
+  border-radius: 50%;
+  width: 64px;
+  height: 64px;
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+  margin: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &.dark {
+    background-color: #505050;
+  }
+
+  &.orange {
+    background-color: #ff9500;
+  }
+
+  &:active {
+    filter: brightness(1.2);
+  }
+}
