@@ -22,11 +22,11 @@ describe('CalculatorService', () => {
     { input: '9,5÷2', expected: 4.75 },
     { input: '0×10+5-3', expected: 2 },
     { input: '100-100×1', expected: 0 },
-    { input: '10+20×3-5÷5+6×2', expected: 78 },
-    { input: '1000+2000×3-1500÷3', expected: 6250 },
+    { input: '10+20×3-5÷5+6×2', expected: 81 },
+    { input: '1000+2000×3-1500÷3', expected: 6500 },
     { input: '50-10×4', expected: 10 },
     { input: '10-50×2', expected: -90 },
-    { input: '2+3×4-5+6÷3×2', expected: 15 },
+    { input: '2+3×4-5+6÷3×2', expected: 13 },
     { input: '5÷0', expected: 'Cannot divide by zero' },
   ];
 
