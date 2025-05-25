@@ -52,7 +52,7 @@ export class CalculatorService {
 
   //A utility method that returns true if op2 has higher or the same precedense as op1
   hasPrecedence(op1: string, op2: string): boolean {
-    if ((op1 == '*' || op1 == '/') && (op2 == '+' || op2 == '-')) {
+    if ((op1 == '×' || op1 == '÷') && (op2 == '+' || op2 == '-')) {
       return false;
     } else {
       return true;
@@ -99,8 +99,6 @@ export class CalculatorService {
           i++;
         }
 
-        console.log(sbuf);
-
         values.push(parseFloat(sbuf));
         i--;
       }
@@ -113,9 +111,6 @@ export class CalculatorService {
         ) {
           const result = this.applyOp(operators.pop() ?? '', values.pop() ?? 0, values.pop() ?? 0);
 
-          if (typeof result === 'string') return;
-          values.push(result);
-
           if (typeof result === 'string') {
             return;
           }
@@ -125,6 +120,8 @@ export class CalculatorService {
       }
     }
 
+    console.log('tokens', tokens, "values", values);
+    
     while (operators.length > 0) {
       const result = this.applyOp(operators.pop() ?? '', values.pop() ?? 0, values.pop() ?? 0);
       if (typeof result === 'string') {
