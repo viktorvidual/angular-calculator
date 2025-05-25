@@ -5,30 +5,32 @@
     </div>
 
     <div class="grid">
-      <calculator-button label="AC" type="dark" (click)="handleButtonPress('AC')" />
-      <calculator-button label="del" type="dark" (click)="handleButtonPress('del')" />
-      <calculator-button label="%" type="dark" (click)="handleButtonPress('%')" />
-      <calculator-button label="÷" type="orange" (click)="handleButtonPress('÷')" />
+      <calculator-button label="AC" type="dark" (click)="calculator.clear()" />
 
-      <calculator-button label="7" type="dark" (click)="handleButtonPress('7')" />
-      <calculator-button label="8" type="dark" (click)="handleButtonPress('8')" />
-      <calculator-button label="9" type="dark" (click)="handleButtonPress('9')" />
-      <calculator-button label="×" type="orange" (click)="handleButtonPress('×')" />
+      <calculator-button label="del" type="dark" (click)="calculator.backspace()" />
 
-      <calculator-button label="4" type="dark" (click)="handleButtonPress('4')" />
-      <calculator-button label="5" type="dark" (click)="handleButtonPress('5')" />
-      <calculator-button label="6" type="dark" (click)="handleButtonPress('6')" />
-      <calculator-button label="−" type="orange" (click)="handleButtonPress('-')" />
+      <calculator-button label="%" type="dark" (click)="calculator.press('%')" />
+      <calculator-button label="÷" type="orange" (click)="calculator.press('÷')" />
 
-      <calculator-button label="1" type="dark" (click)="handleButtonPress('1')" />
-      <calculator-button label="2" type="dark" (click)="handleButtonPress('2')" />
-      <calculator-button label="3" type="dark" (click)="handleButtonPress('3')" />
-      <calculator-button label="+" type="orange" (click)="handleButtonPress('+')" />
+      <calculator-button label="7" type="dark" (click)="calculator.press('7')" />
+      <calculator-button label="8" type="dark" (click)="calculator.press('8')" />
+      <calculator-button label="9" type="dark" (click)="calculator.press('9')" />
+      <calculator-button label="×" type="orange" (click)="calculator.press('×')" />
 
-      <calculator-button label="📱" type="dark" (click)="handleButtonPress('')" />
-      <calculator-button label="0" type="dark" (click)="handleButtonPress('0')" />
-      <calculator-button label="," type="dark" (click)="handleButtonPress(',')" />
-      <calculator-button label="=" type="orange" (click)="handleButtonPress('=')" />
+      <calculator-button label="4" type="dark" (click)="calculator.press('4')" />
+      <calculator-button label="5" type="dark" (click)="calculator.press('5')" />
+      <calculator-button label="6" type="dark" (click)="calculator.press('6')" />
+      <calculator-button label="−" type="orange" (click)="calculator.press('-')" />
+
+      <calculator-button label="1" type="dark" (click)="calculator.press('1')" />
+      <calculator-button label="2" type="dark" (click)="calculator.press('2')" />
+      <calculator-button label="3" type="dark" (click)="calculator.press('3')" />
+      <calculator-button label="+" type="orange" (click)="calculator.press('+')" />
+
+      <calculator-button label="📱" type="dark" [disabled]="true" />
+      <calculator-button label="0" type="dark" (click)="calculator.press('0')" />
+      <calculator-button label="," type="dark" (click)="calculator.press(',')" />
+      <calculator-button label="=" type="orange" (click)="calculator.evaluate()" />
     </div>
   </div>
 </div>

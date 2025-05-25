@@ -26,8 +26,8 @@ export class CalculatorService {
     this.error = error;
   }
 
-  getError(){
-    return this.error
+  getError() {
+    return this.error;
   }
 
   press(key: string): void {
@@ -60,7 +60,7 @@ export class CalculatorService {
   }
 
   //A utility method to apply an operator and operands. Returns the result
-  applyOp(operator: string, b: number, a: number) {
+  applyOperation(operator: string, b: number, a: number) {
     switch (operator) {
       case '+':
         return a + b;
@@ -109,7 +109,7 @@ export class CalculatorService {
           operators.length > 0 &&
           this.hasPrecedence(tokens[i], operators[operators.length - 1])
         ) {
-          const result = this.applyOp(operators.pop() ?? '', values.pop() ?? 0, values.pop() ?? 0);
+          const result = this.applyOperation(operators.pop() ?? '', values.pop() ?? 0, values.pop() ?? 0);
 
           if (typeof result === 'string') {
             return;
@@ -120,10 +120,10 @@ export class CalculatorService {
       }
     }
 
-    console.log('tokens', tokens, "values", values);
-    
+    console.log('tokens', tokens, 'values', values);
+
     while (operators.length > 0) {
-      const result = this.applyOp(operators.pop() ?? '', values.pop() ?? 0, values.pop() ?? 0);
+      const result = this.applyOperation(operators.pop() ?? '', values.pop() ?? 0, values.pop() ?? 0);
       if (typeof result === 'string') {
         return;
       }
