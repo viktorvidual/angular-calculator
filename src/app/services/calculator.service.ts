@@ -6,7 +6,6 @@ import { Injectable } from '@angular/core';
 export class CalculatorService {
   private input = '0';
   private executed = false;
-  private lastInput = '';
   private error = '';
 
   getInput(): string {
@@ -31,15 +30,42 @@ export class CalculatorService {
   }
 
   press(key: string): void {
-    //add edge cases
+    const lastChar = this.input[this.input.length - 1];
+
     if (this.executed) {
-      this.input = key;
       this.executed = false;
-    } else if (this.input === '0') {
-      this.input = key;
-    } else {
-      this.input += key;
+
+      if (this.isNumberToken(key) || key === ',') {
+        this.input = key;
+      } else if (this.isOperatorToken(key)) {
+        this.input += key;
+      }
+
+      return;
     }
+
+    if (this.input === '0' && this.isNumberToken(key)) {
+      this.input = key;
+      return;
+    }
+
+    // Replace operator if two are typed in a row
+    if (this.isOperatorToken(key)) {
+      if (this.input === '') {
+        if (key === '-') this.input = key;
+        return;
+      }
+
+      if (this.isOperatorToken(lastChar)) {
+        this.input = this.input.slice(0, -1) + key;
+      } else {
+        this.input += key;
+      }
+
+      return;
+    }
+
+    this.input += key;
   }
 
   backspace(): void {
@@ -50,17 +76,30 @@ export class CalculatorService {
     }
   }
 
+  private isNumberToken(value: string): boolean {
+    return (value >= '0' && value <= '9') || value === ',';
+  }
+
+  private isOperatorToken(value: string): boolean {
+    return value === '+' || value === '-' || value === '×' || value === '÷' || value === '%';
+  }
+
   //A utility method that returns true if op2 has higher or the same precedense as op1
-  hasPrecedence(op1: string, op2: string): boolean {
-    if ((op1 == '×' || op1 == '÷') && (op2 == '+' || op2 == '-')) {
+  private hasPrecedence(op1: string, op2: string): boolean {
+    const highPrecedenceOps = ['×', '÷', '%'];
+    const lowPrecedenceOps = ['+', '-'];
+
+    // If op1 is high precedence and op2 is low precedence, op2 does NOT have higher or same precedence
+    if (highPrecedenceOps.includes(op1) && lowPrecedenceOps.includes(op2)) {
       return false;
-    } else {
-      return true;
     }
+
+    // Otherwise op2 has higher or same precedence
+    return true;
   }
 
   //A utility method to apply an operator and operands. Returns the result
-  applyOperation(operator: string, b: number, a: number) {
+  private applyOperation(operator: string, b: number, a: number) {
     switch (operator) {
       case '+':
         return a + b;
@@ -68,6 +107,8 @@ export class CalculatorService {
         return a - b;
       case '×':
         return a * b;
+      case '%':
+        return (a * b) / 100;
       case '÷':
         if (b === 0) {
           return (this.error = 'Cannot divide by zero');
@@ -91,10 +132,10 @@ export class CalculatorService {
       console.log(element);
 
       //Case 1, token is a number
-      if (tokens[i] >= '0' && tokens[i] <= '9') {
+      if (this.isNumberToken(tokens[i])) {
         let sbuf = '';
 
-        while ((i < tokens.length && tokens[i] >= '0' && tokens[i] <= '9') || tokens[i] === ',') {
+        while (i < tokens.length && this.isNumberToken(tokens[i])) {
           sbuf = sbuf + (tokens[i] === ',' ? '.' : tokens[i]);
           i++;
         }
@@ -104,12 +145,16 @@ export class CalculatorService {
       }
 
       //Case 2, token is an operator
-      else if (tokens[i] === '+' || tokens[i] === '-' || tokens[i] === '×' || tokens[i] === '÷') {
+      else if (this.isOperatorToken(tokens[i])) {
         while (
           operators.length > 0 &&
           this.hasPrecedence(tokens[i], operators[operators.length - 1])
         ) {
-          const result = this.applyOperation(operators.pop() ?? '', values.pop() ?? 0, values.pop() ?? 0);
+          const result = this.applyOperation(
+            operators.pop() ?? '',
+            values.pop() ?? 0,
+            values.pop() ?? 0,
+          );
 
           if (typeof result === 'string') {
             return;
@@ -123,7 +168,11 @@ export class CalculatorService {
     console.log('tokens', tokens, 'values', values);
 
     while (operators.length > 0) {
-      const result = this.applyOperation(operators.pop() ?? '', values.pop() ?? 0, values.pop() ?? 0);
+      const result = this.applyOperation(
+        operators.pop() ?? '',
+        values.pop() ?? 0,
+        values.pop() ?? 0,
+      );
       if (typeof result === 'string') {
         return;
       }
@@ -131,6 +180,27 @@ export class CalculatorService {
     }
 
     let calculated = String(values.pop());
+
+    if (calculated === 'NaN' || calculated === 'Infinity') {
+      this.error = 'Invalid calculation';
+    } else {
+      this.error = '';
+    }
+
+    //save result to local storage
+    const originalInput = this.input;
+    const result = calculated;
+
+    try {
+      const history = JSON.parse(localStorage.getItem('calculator-history') || '[]');
+
+      history.push({ input: originalInput, result });
+      localStorage.setItem('calculator-history', JSON.stringify(history));
+    } catch (e) {
+      console.error('Error parsing history from localStorage:', e);
+      return;
+    }
+
     this.input = calculated;
     this.executed = true;
   }

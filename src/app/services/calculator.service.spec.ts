@@ -28,6 +28,10 @@ describe('CalculatorService', () => {
     { input: '10-50×2', expected: -90 },
     { input: '2+3×4-5+6÷3×2', expected: 13 },
     { input: '5÷0', expected: 'Cannot divide by zero' },
+    // { input: '500 + 20% - 10%', expected: 540 },
+    // { input: '100+10%+10%', expected: 121 },
+    // { input: '100 + 10% × 2', expected: 120 },
+    // { input: '10% + 10%', expected: 0.2 },
   ];
 
   tests.forEach(({ input, expected }) => {

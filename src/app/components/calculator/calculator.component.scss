@@ -18,7 +18,10 @@
 }
 
 .display {
+  white-space: normal;
+  overflow-wrap: break-word;
   color: white;
+  word-wrap: break-word;
   width: 100%;
   text-align: right;
   font-size: 49px;
