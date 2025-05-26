@@ -193,7 +193,6 @@ export class CalculatorService {
 
     try {
       const history = JSON.parse(localStorage.getItem('calculator-history') || '[]');
-
       history.push({ input: originalInput, result });
       localStorage.setItem('calculator-history', JSON.stringify(history));
     } catch (e) {

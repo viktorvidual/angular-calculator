@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { CalculatorService } from '../../services/calculator.service';
-import { CalculatorButton } from '../button/button.component';
+import { CalculatorButton } from '../../components/button/button.component';
 
 @Component({
   selector: 'app-calculator',
