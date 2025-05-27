@@ -26,7 +26,7 @@ export class HistoryService {
     this.loadHistory();
   }
 
-  getHistory() {
+  get currentHistory(): HistoryItem[] {
     return this.history;
   }
 

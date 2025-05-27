@@ -1,7 +1,12 @@
 <div class="calculator-container">
+  @if (calculator.errorMessage) {
+    <div class="error-message">
+      {{ calculator.errorMessage }}
+    </div>
+  }
   <div class="calculator">
     <div class="display">
-      {{ calculator.getInput() }}
+      {{ calculator.calculatorInput }}
     </div>
 
     <div class="grid">
@@ -33,7 +38,7 @@
       <calculator-button label="3" type="dark" (click)="calculator.press('3')" />
       <calculator-button label="+" type="orange" (click)="calculator.press('+')" />
 
-      <calculator-button label="📖" type="dark" (click)="goToHistory()"/>
+      <calculator-button label="📖" type="dark" (click)="goToHistory()" />
       <calculator-button label="0" type="dark" (click)="calculator.press('0')" />
       <calculator-button label="," type="dark" (click)="calculator.press(',')" />
       <calculator-button label="=" type="orange" (click)="calculator.evaluate()" />

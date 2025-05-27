@@ -1,5 +1,4 @@
 import { Injectable, inject } from '@angular/core';
-import { STORAGE_KEY } from '../../constants';
 import { HistoryService } from '../history/history.service';
 
 @Injectable({
@@ -12,7 +11,11 @@ export class CalculatorService {
 
   historyService = inject(HistoryService);
 
-  getInput(): string {
+  get errorMessage(): string {
+    return this.error;
+  }
+
+  get calculatorInput(): string {
     return this.input;
   }
 
@@ -34,6 +37,7 @@ export class CalculatorService {
   }
 
   press(key: string): void {
+    this.error = '';
     const lastChar = this.input[this.input.length - 1];
 
     //after execution, start new input if key is number, or continue input if key is operator
@@ -147,6 +151,7 @@ export class CalculatorService {
           );
 
           if (typeof result === 'string') {
+            this.error = 'Invalid calculation';
             return;
           }
           values.push(result);
@@ -164,6 +169,7 @@ export class CalculatorService {
         values.pop() ?? 0,
       );
       if (typeof result === 'string') {
+        this.error = 'Invalid calculation';
         return;
       }
       values.push(result);
@@ -173,6 +179,7 @@ export class CalculatorService {
 
     if (calculated === 'NaN' || calculated === 'Infinity') {
       this.error = 'Invalid calculation';
+      return;
     } else {
       this.error = '';
     }
@@ -223,7 +230,7 @@ export class CalculatorService {
         return a * b;
       case '÷':
         if (b === 0) {
-          return (this.error = 'Cannot divide by zero');
+          return 'Cannot divide by zero';
         }
         return a / b;
     }

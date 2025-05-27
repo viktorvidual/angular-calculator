@@ -7,12 +7,12 @@ import { HistoryItem, HistoryService } from '../../services/history/history.serv
     <div class="container">
       <h1>History</h1>
 
-      @if (history.length > 0) {
-        <button (click)="clearHistory()">Clear History</button>
+      @if (historyService.currentHistory.length > 0) {
+        <button (click)="historyService.clearHistory()">Clear History</button>
       }
 
       <ul>
-        @for (item of history; track item.input) {
+        @for (item of historyService.currentHistory; track item.input) {
           <li class="history-item">{{ item.input }} = {{ item.result }}</li>
         } @empty {
           <li>Current history is empty.</li>
@@ -23,15 +23,5 @@ import { HistoryItem, HistoryService } from '../../services/history/history.serv
   styleUrls: ['history.component.scss'],
 })
 export class HistoryComponent {
-  history: HistoryItem[] = [];
   historyService = inject(HistoryService);
-
-  constructor() {
-    this.history = this.historyService.getHistory();
-  }
-
-  clearHistory(): void {
-    this.historyService.clearHistory();
-    this.history = [];
-  }
 }
