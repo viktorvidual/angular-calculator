@@ -12,7 +12,7 @@ import { Component, Input } from '@angular/core';
       {{ label }}
     </button>
   `,
-  styleUrls: ['button.component.scss'],
+  styleUrls: ['calculator-button.component.scss'],
 })
 export class CalculatorButton {
   @Input() label: string = '';

@@ -33,7 +33,7 @@
       <calculator-button label="3" type="dark" (click)="calculator.press('3')" />
       <calculator-button label="+" type="orange" (click)="calculator.press('+')" />
 
-      <calculator-button label="📱" type="dark" [disabled]="true" />
+      <calculator-button label="📖" type="dark" (click)="goToHistory()"/>
       <calculator-button label="0" type="dark" (click)="calculator.press('0')" />
       <calculator-button label="," type="dark" (click)="calculator.press(',')" />
       <calculator-button label="=" type="orange" (click)="calculator.evaluate()" />

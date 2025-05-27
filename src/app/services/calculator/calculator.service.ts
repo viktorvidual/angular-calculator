@@ -1,4 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { STORAGE_KEY } from '../../constants';
+import { HistoryService } from '../history/history.service';
 
 @Injectable({
   providedIn: 'root',
@@ -7,6 +9,8 @@ export class CalculatorService {
   private input = '0';
   private executed = false;
   private error = '';
+
+  historyService = inject(HistoryService);
 
   getInput(): string {
     return this.input;
@@ -42,6 +46,11 @@ export class CalculatorService {
         this.input += key;
       }
 
+      return;
+    }
+
+    //case where user presse "," but prev char is not a number
+    if (key === ',' && !(lastChar >= '0' && lastChar <= '9')) {
       return;
     }
 
@@ -172,14 +181,10 @@ export class CalculatorService {
     const originalInput = this.input;
     const result = calculated;
 
-    try {
-      const history = JSON.parse(localStorage.getItem('calculator-history') || '[]');
-      history.push({ input: originalInput, result });
-      localStorage.setItem('calculator-history', JSON.stringify(history));
-    } catch (e) {
-      console.error('Error parsing history from localStorage:', e);
-      return;
-    }
+    this.historyService.addToHistory({
+      input: originalInput,
+      result: result,
+    });
 
     this.input = calculated;
     this.executed = true;

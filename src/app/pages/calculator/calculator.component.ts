@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
-import { CalculatorService } from '../../services/calculator.service';
-import { CalculatorButton } from '../../components/button/button.component';
+import { CalculatorService } from '../../services/calculator/calculator.service';
+import { CalculatorButton } from '../../components/calculator-button/calculator-button.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-calculator',
@@ -9,5 +10,11 @@ import { CalculatorButton } from '../../components/button/button.component';
   imports: [CalculatorButton],
 })
 export class CalculatorComponent {
+  private router = inject(Router);
+
   calculator = inject(CalculatorService);
+
+  goToHistory(): void {
+    this.router.navigate(['/history']);
+  }
 }
