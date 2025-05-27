@@ -5,11 +5,11 @@ import { HistoryService } from '../history/history.service';
   providedIn: 'root',
 })
 export class CalculatorService {
+  historyService = inject(HistoryService);
+
   private input = '0';
   private executed = false;
   private error = '';
-
-  historyService = inject(HistoryService);
 
   get errorMessage(): string {
     return this.error;
@@ -23,17 +23,13 @@ export class CalculatorService {
     return this.executed;
   }
 
-  //method below is used for testing purposes
+  //the two methods below is used for testing purposes
   setInput(input: string): void {
     this.input = input;
   }
 
   setError(error: string) {
     this.error = error;
-  }
-
-  getError() {
-    return this.error;
   }
 
   press(key: string): void {
@@ -104,6 +100,7 @@ export class CalculatorService {
   }
 
   clear(): void {
+    this.error = '';
     this.input = '0';
     this.executed = false;
   }
@@ -151,7 +148,7 @@ export class CalculatorService {
           );
 
           if (typeof result === 'string') {
-            this.error = 'Invalid calculation';
+            this.error = result;
             return;
           }
           values.push(result);
@@ -169,7 +166,7 @@ export class CalculatorService {
         values.pop() ?? 0,
       );
       if (typeof result === 'string') {
-        this.error = 'Invalid calculation';
+        this.error = result;
         return;
       }
       values.push(result);

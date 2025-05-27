@@ -38,7 +38,7 @@ describe('CalculatorService', () => {
       service.setError('');
       service.evaluate();
 
-      const result = service.getError() ? service.errorMessage : Number(service.calculatorInput);
+      const result = service.errorMessage ? service.errorMessage : Number(service.calculatorInput);
 
       if (typeof expected === 'string') {
         expect(result).toBe(expected);
