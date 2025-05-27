@@ -2,29 +2,32 @@
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.13.
 
-It is a modular, component-driven calculator application that includes support for arithmetic operations, Modern Calculator UI with reusable calculator-button component, and service-based state management. It also features a calculation history feature.
+It is a modular, component-driven calculator application that includes support for arithmetic operations, Modern Calculator UI with reusable calculator-button component, and service-based state management. It also features a calculation history screen.
 
-## Development server
+## Start The Project
 
-To start a local development server, run:
+Install dependencies, then to start a local development server, run:
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## 🔧 Project Structure
 
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
 ```
-
-## 🔧 Project Structure & Architecture
-
-<pre lang="text"><code> ```text src/ └── app/ ├── components/ # Reusable UI components │ └── calculator-button/ # Styled calculator button component ├── pages/ # Route-level components (views) │ ├── calculator/ # Main calculator screen (UI + logic) │ └── history/ # History screen (view past calculations) ├── services/ # Application logic and state handling │ ├── calculator/ # Calculator evaluation logic │ └── history/ # History persistence and retrieval ├── app.component.* # Root component ├── app.config.ts # Angular standalone component config ├── app.routes.ts # Application routes using provideRouter ``` </code></pre>
+└── app/
+├── components/ # Reusable UI components
+│ └── calculator-button/ # Styled calculator button component
+├── pages/ # Route-level components (views)
+│ ├── calculator/ # Main calculator screen (UI + logic)
+│ └── history/ # History screen (view past calculations)
+├── services/ # Application logic and state handling
+│ ├── calculator/ # Calculator evaluation logic
+│ └── history/ # History persistence and retrieval
+├── app.component.* # Root component
+├── app.config.ts # Angular standalone component config
+├── app.routes.ts # Application routes using provideRouter
+```
 
 ## 🧠 Key Architectural Concepts
 
@@ -37,3 +40,11 @@ The history feature follows the same pattern, but it is interesting to note that
 - **Routing**: Navigation between Calculator and History is managed using `provideRouter()` with route-based code organization under `pages/`.
 
 - **Testing**: Each service and component has a corresponding `.spec.ts` file for unit tests using Karma and Jasmine, but only the calculator service is tested extensively.
+
+## Running unit tests
+
+To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+
+```bash
+ng test
+```
