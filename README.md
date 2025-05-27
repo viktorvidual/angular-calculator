@@ -24,23 +24,11 @@ ng test
 
 ## 🔧 Project Structure & Architecture
 
-src/
-└── app/
-├── components/ # Reusable UI components
-│ └── calculator-button/ # Styled calculator button component
-├── pages/ # Route-level components (views)
-│ ├── calculator/ # Main calculator screen (UI + logic)
-│ └── history/ # History screen (view past calculations)
-├── services/ # Application logic and state handling
-│ ├── calculator/ # Calculator evaluation logic
-│ └── history/ # History persistence and retrieval
-├── app.component.\* # Root component
-├── app.config.ts # Angular standalone component config
-├── app.routes.ts # Application routes using provideRouter
+<pre lang="text"><code> ```text src/ └── app/ ├── components/ # Reusable UI components │ └── calculator-button/ # Styled calculator button component ├── pages/ # Route-level components (views) │ ├── calculator/ # Main calculator screen (UI + logic) │ └── history/ # History screen (view past calculations) ├── services/ # Application logic and state handling │ ├── calculator/ # Calculator evaluation logic │ └── history/ # History persistence and retrieval ├── app.component.* # Root component ├── app.config.ts # Angular standalone component config ├── app.routes.ts # Application routes using provideRouter ``` </code></pre>
 
 ## 🧠 Key Architectural Concepts
 
-- **Component Isolation**: The main UI elements of the calculator - the button is encapsulated into self-contained components(`calculator-button`) with their own styles and custom @Inputs / Props
+- **Component Isolation**: The main UI element of the calculator - the button is encapsulated into self-contained component(`calculator-button`) with it's own styles and custom @Inputs / Props
 
 - **Service Layer**: The calculator logic (expression evaluation, error handling) is decoupled from the UI using Angular services. Here instead if using the buildin eval JS method, I used evaluation algorithm.
 
