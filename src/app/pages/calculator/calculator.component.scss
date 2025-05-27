@@ -35,3 +35,7 @@
   grid-template-columns: repeat(4, auto);
   gap: 8px;
 }
+
+.col-span-2 {
+  grid-column: span 2;
+}

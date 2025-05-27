@@ -32,6 +32,7 @@ export class CalculatorService {
   press(key: string): void {
     const lastChar = this.input[this.input.length - 1];
 
+    //after execution, start new input if key is number, or continue input if key is operator
     if (this.executed) {
       this.executed = false;
 
@@ -44,8 +45,21 @@ export class CalculatorService {
       return;
     }
 
+    //replace zero with current key if input is zero
     if (this.input === '0' && this.isNumberToken(key)) {
       this.input = key;
+      return;
+    }
+
+    //case where input is empty and user tries devision
+    if (this.input === '0' && key === '÷') {
+      this.input = '0';
+      return;
+    }
+
+    //case where first char is 0 and second is operator different than division, but
+    //user tries to divide, which would result in zero division error
+    if (this.input.length === 2 && key === '÷' && this.isOperatorToken(lastChar)) {
       return;
     }
 
@@ -76,52 +90,19 @@ export class CalculatorService {
     }
   }
 
-  private isNumberToken(value: string): boolean {
-    return (value >= '0' && value <= '9') || value === ',';
-  }
-
-  private isOperatorToken(value: string): boolean {
-    return value === '+' || value === '-' || value === '×' || value === '÷' || value === '%';
-  }
-
-  //A utility method that returns true if op2 has higher or the same precedense as op1
-  private hasPrecedence(op1: string, op2: string): boolean {
-    const highPrecedenceOps = ['×', '÷', '%'];
-    const lowPrecedenceOps = ['+', '-'];
-
-    // If op1 is high precedence and op2 is low precedence, op2 does NOT have higher or same precedence
-    if (highPrecedenceOps.includes(op1) && lowPrecedenceOps.includes(op2)) {
-      return false;
-    }
-
-    // Otherwise op2 has higher or same precedence
-    return true;
-  }
-
-  //A utility method to apply an operator and operands. Returns the result
-  private applyOperation(operator: string, b: number, a: number) {
-    switch (operator) {
-      case '+':
-        return a + b;
-      case '-':
-        return a - b;
-      case '×':
-        return a * b;
-      case '%':
-        return (a * b) / 100;
-      case '÷':
-        if (b === 0) {
-          return (this.error = 'Cannot divide by zero');
-        }
-        return a / b;
-    }
-
-    return 0;
+  clear(): void {
+    this.input = '0';
+    this.executed = false;
   }
 
   evaluate(): void {
     let tokens = this.input.split('');
     console.log(tokens);
+
+    //calculator operators are binary, so if last token is operator it is going to beignored
+    if (this.isOperatorToken(tokens[tokens.length - 1])) {
+      tokens.pop();
+    }
 
     let values: number[] = [];
     let operators: string[] = [];
@@ -165,7 +146,7 @@ export class CalculatorService {
       }
     }
 
-    console.log('tokens', tokens, 'values', values);
+    console.log('values', values, 'operators', operators);
 
     while (operators.length > 0) {
       const result = this.applyOperation(
@@ -204,8 +185,44 @@ export class CalculatorService {
     this.executed = true;
   }
 
-  clear(): void {
-    this.input = '0';
-    this.executed = false;
+  private isNumberToken(value: string): boolean {
+    return (value >= '0' && value <= '9') || value === ',';
+  }
+
+  private isOperatorToken(value: string): boolean {
+    return value === '+' || value === '-' || value === '×' || value === '÷';
+  }
+
+  //A utility method that returns true if op2 has higher or the same precedense as op1
+  private hasPrecedence(op1: string, op2: string): boolean {
+    const highPrecedenceOps = ['×', '÷'];
+    const lowPrecedenceOps = ['+', '-'];
+
+    // If op1 is high precedence and op2 is low precedence, op2 does NOT have higher or same precedence
+    if (highPrecedenceOps.includes(op1) && lowPrecedenceOps.includes(op2)) {
+      return false;
+    }
+
+    // Otherwise op2 has higher or same precedence
+    return true;
+  }
+
+  //A utility method to apply an operator and operands. Returns the result
+  private applyOperation(operator: string, b: number, a: number) {
+    switch (operator) {
+      case '+':
+        return a + b;
+      case '-':
+        return a - b;
+      case '×':
+        return a * b;
+      case '÷':
+        if (b === 0) {
+          return (this.error = 'Cannot divide by zero');
+        }
+        return a / b;
+    }
+
+    return 0;
   }
 }

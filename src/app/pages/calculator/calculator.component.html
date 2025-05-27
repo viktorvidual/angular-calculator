@@ -5,11 +5,17 @@
     </div>
 
     <div class="grid">
-      <calculator-button label="AC" type="dark" (click)="calculator.clear()" />
+      <calculator-button
+        class="col-span-2"
+        width="128px"
+        borderRadius="32px"
+        label="AC"
+        type="dark"
+        (click)="calculator.clear()"
+      />
 
       <calculator-button label="del" type="dark" (click)="calculator.backspace()" />
 
-      <calculator-button label="%" type="dark" (click)="calculator.press('%')" />
       <calculator-button label="÷" type="orange" (click)="calculator.press('÷')" />
 
       <calculator-button label="7" type="dark" (click)="calculator.press('7')" />
